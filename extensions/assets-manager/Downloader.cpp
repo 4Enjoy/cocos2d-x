@@ -295,7 +295,10 @@ Downloader::HeaderInfo Downloader::prepareHeader(const std::string &srcUrl, void
     curl_easy_setopt(header, CURLOPT_URL, srcUrl.c_str());
     curl_easy_setopt(header, CURLOPT_HEADER, 1);
     curl_easy_setopt(header, CURLOPT_NOBODY, 1);
-    if (curl_easy_perform(header) == CURLE_OK)
+    curl_easy_setopt(header, CURLOPT_SSL_VERIFYHOST, 0);
+    curl_easy_setopt(header, CURLOPT_SSL_VERIFYPEER, 0);
+    CURLcode code = curl_easy_perform(header);
+    if (code == CURLE_OK)
     {
         char *url;
         char *contentType;
@@ -303,6 +306,7 @@ Downloader::HeaderInfo Downloader::prepareHeader(const std::string &srcUrl, void
         curl_easy_getinfo(header, CURLINFO_CONTENT_TYPE, &contentType);
         curl_easy_getinfo(header, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &info.contentSize);
         curl_easy_getinfo(header, CURLINFO_RESPONSE_CODE, &info.responseCode);
+        
         info.url = url;
         info.contentType = contentType;
         info.valid = true;
@@ -314,6 +318,7 @@ Downloader::HeaderInfo Downloader::prepareHeader(const std::string &srcUrl, void
     }
     else
     {
+        CCLOG("Curl Error: %d", code);
         info.contentSize = -1;
         std::string msg = StringUtils::format("Can not get content size of file (%s) : Request header failed", srcUrl.c_str());
         this->notifyError(ErrorCode::PREPARE_HEADER_ERROR, msg);
@@ -409,6 +414,9 @@ void Downloader::downloadToBuffer(const std::string &srcUrl, const std::string &
     curl_easy_setopt(curl, CURLOPT_LOW_SPEED_LIMIT, LOW_SPEED_LIMIT);
     curl_easy_setopt(curl, CURLOPT_LOW_SPEED_TIME, LOW_SPEED_TIME);
     
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
+    
     CURLcode res = curl_easy_perform(curl);
     if (res != CURLE_OK)
     {
@@ -478,6 +486,9 @@ void Downloader::download(const std::string &srcUrl, const std::string &customId
     curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1L);
     curl_easy_setopt(curl, CURLOPT_LOW_SPEED_LIMIT, LOW_SPEED_LIMIT);
     curl_easy_setopt(curl, CURLOPT_LOW_SPEED_TIME, LOW_SPEED_TIME);
+    
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
     
     CURLcode res = curl_easy_perform(curl);
     if (res != CURLE_OK)
@@ -603,6 +614,9 @@ void Downloader::groupBatchDownload(const DownloadUnits &units)
             curl_easy_setopt(curl, CURLOPT_LOW_SPEED_TIME, LOW_SPEED_TIME);
             curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, true);
             curl_easy_setopt(curl, CURLOPT_MAXREDIRS, MAX_REDIRS);
+            
+            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
             
             // Resuming download support
             if (_supportResuming && unit.resumeDownload)
