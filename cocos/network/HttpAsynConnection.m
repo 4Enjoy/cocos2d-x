@@ -59,9 +59,15 @@
     [super dealloc];
 }
 
+
+
 - (void) startRequest:(NSURLRequest *)request
 {
-    NSLog(@"Starting to load %@", srcURL);
+    int MaxLength = 80;
+    if(srcURL.length > MaxLength)
+        NSLog(@"[HTTP] Starting to load %@...", [srcURL substringToIndex: MaxLength]);
+    else
+        NSLog(@"[HTTP] Starting to load %@", srcURL);
     finish = false;
 
     self.responseData = [NSMutableData data];
@@ -90,7 +96,12 @@
  **/
 - (void) connection:(NSURLConnection *)connection 
  didReceiveResponse:(NSURLResponse *)response {
-    NSLog(@"Received response from request to url %@", srcURL);
+    int MaxLength = 80;
+    if(srcURL.length > MaxLength)
+        NSLog(@"[HTTP] Received response %@...", [srcURL substringToIndex: MaxLength]);
+    else
+        NSLog(@"[HTTP] Received response %@", srcURL);
+    
     
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
     //NSLog(@"All headers = %@", [httpResponse allHeaderFields]);
