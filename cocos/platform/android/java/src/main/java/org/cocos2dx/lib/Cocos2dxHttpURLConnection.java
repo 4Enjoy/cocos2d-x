@@ -74,7 +74,7 @@ public class Cocos2dxHttpURLConnection
             urlConnection.setRequestProperty("Accept-Encoding", "identity");
             urlConnection.setDoInput(true);
         } catch (Exception e) {
-            Log.e("Cocos2dxHttpURLConnection exception", e.toString());
+            Log.e("HTTPException", e.toString());
             return null;
         }
 
@@ -93,7 +93,7 @@ public class Cocos2dxHttpURLConnection
                 urlConnection.setDoOutput(true);
             }
         } catch (ProtocolException e) {
-            Log.e("Cocos2dxHttpURLConnection exception", e.toString());
+            Log.e("HTTPException", e.toString());
         }
 
     }
@@ -138,7 +138,7 @@ public class Cocos2dxHttpURLConnection
 
             httpsURLConnection.setSSLSocketFactory(context.getSocketFactory());
         } catch (Exception e) {
-            Log.e("Cocos2dxHttpURLConnection exception", e.toString());
+            Log.e("HTTPException", e.toString());
         }
     }
 
@@ -174,7 +174,7 @@ public class Cocos2dxHttpURLConnection
             }
             out.close();
         } catch (IOException e) {
-            Log.e("Cocos2dxHttpURLConnection exception", e.toString());
+            Log.e("HTTPException", e.toString());
         }
     }
 
@@ -266,7 +266,7 @@ public class Cocos2dxHttpURLConnection
         } catch (IOException e) {
             in = new DataInputStream(http.getErrorStream());
         } catch (Exception e) {
-            Log.e("Cocos2dxHttpURLConnection exception", e.toString());
+            Log.e("HTTPException", e.toString());
             return null;
         }
 
@@ -282,7 +282,7 @@ public class Cocos2dxHttpURLConnection
             bytestream.close();
             return retbuffer;
         } catch (Exception e) {
-            Log.e("Cocos2dxHttpURLConnection exception", e.toString());
+            Log.e("HTTPException", e.toString());
         }
 
         return null;
@@ -293,7 +293,7 @@ public class Cocos2dxHttpURLConnection
         try {
             code = http.getResponseCode();
         } catch (IOException e) {
-            Log.e("Cocos2dxHttpURLConnection exception", e.toString());
+            Log.e("HTTPException", e.toString());
         }
         return code;
     }
@@ -304,7 +304,7 @@ public class Cocos2dxHttpURLConnection
             msg = http.getResponseMessage();
         } catch (IOException e) {
             msg = e.toString();
-            Log.e("Cocos2dxHttpURLConnection exception", msg);
+            Log.e("HTTPException", msg);
         }
 
         return msg;
@@ -393,7 +393,7 @@ public class Cocos2dxHttpURLConnection
             c.setTime(new SimpleDateFormat("EEE, dd-MMM-yy hh:mm:ss zzz", Locale.US).parse(strTime));
             millisSecond = c.getTimeInMillis()/1000;
         } catch (ParseException e) {
-            Log.e("Cocos2dxHttpURLConnection exception", e.toString());
+            Log.e("HTTPException", e.toString());
         }
 
         return Long.toString(millisSecond);

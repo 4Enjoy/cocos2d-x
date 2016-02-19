@@ -125,7 +125,7 @@ public class Cocos2dxBitmap {
             final int firstWordWidth = (int) Math.ceil(paint.measureText(string, 0,1));
             if (firstWordWidth > width)
             {
-                Log.w("createTextBitmapShadowStroke warning:","the input width is less than the width of the pString's first word\n");
+                Log.w("ShadowStroke warning","the input width is less than the width of the pString's first word\n");
                 return false;
             }
         }
@@ -145,7 +145,7 @@ public class Cocos2dxBitmap {
         
         if (0 == textProperty.mMaxWidth || 0 == bitmapTotalHeight)
         {
-            Log.w("createTextBitmapShadowStroke warning:","textProperty MaxWidth is 0 or bitMapTotalHeight is 0\n");
+            Log.w("ShadowStroke warning","textProperty MaxWidth is 0 or bitMapTotalHeight is 0\n");
             return false;
         }
 

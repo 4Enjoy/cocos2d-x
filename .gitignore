@@ -42,6 +42,7 @@ AppPackages
 libs/
 bin/
 obj/
+
 gen/
 assets/
 local.properties
@@ -130,3 +131,6 @@ tests/cpp-tests/Resources/audio
 /tests/lua-empty-test/src/cocos/
 /tests/lua-game-controller-test/src/cocos/
 /tests/lua-tests/src/cocos/
+
+.gradle
+cocos/platform/android/java/build/
